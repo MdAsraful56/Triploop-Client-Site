@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router';
 import App from '../App';
-import LoginForm from '../components/modules/Authentication/LoginForm';
-import RegisterForm from '../components/modules/Authentication/RegisterForm';
 import About from '../pages/About';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import Verify from '../pages/Verify';
 
 export const router = createBrowserRouter([
     {
@@ -17,11 +18,15 @@ export const router = createBrowserRouter([
         ],
     },
     {
-        path: 'login',
-        Component: LoginForm,
+        path: '/login',
+        Component: Login,
     },
     {
-        path: 'register',
-        Component: RegisterForm,
+        path: '/register',
+        Component: Register,
+    },
+    {
+        path: '/verify',
+        Component: Verify,
     },
 ]);
