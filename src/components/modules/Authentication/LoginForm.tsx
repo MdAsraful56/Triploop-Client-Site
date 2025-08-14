@@ -14,6 +14,7 @@ import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form';
 // import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import config from '../../../config/config';
 import { useLoginMutation } from '../../../redux/features/auth/auth.api';
 
 export function LoginForm({
@@ -30,7 +31,11 @@ export function LoginForm({
         } catch (err) {
             console.error(err);
 
-            if (err.status === 401) {
+            if (err.data.message === 'Password does not match') {
+                toast.error('Invalid password');
+            }
+
+            if (err.data === 'User is not verified') {
                 toast.error('Your account is not verified');
                 navigate('/verify', { state: data.email });
             }
@@ -101,6 +106,7 @@ export function LoginForm({
                 </div>
 
                 <Button
+                    onClick={() => window.open(`${config.baseUrl}/auth/google`)}
                     type='button'
                     variant='outline'
                     className='w-full cursor-pointer'
