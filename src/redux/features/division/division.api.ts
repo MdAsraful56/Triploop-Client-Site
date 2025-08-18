@@ -8,16 +8,18 @@ export const divisionApi = baseApi.injectEndpoints({
                 method: 'POST',
                 data: divisionData,
             }),
+            invalidatesTags: ['Division'],
         }),
 
-        getDivision: builder.query({
+        getDivisions: builder.query({
             query: () => ({
                 url: `/division`,
                 method: 'GET',
             }),
+            providesTags: ['Division'],
             transformResponse: (response) => response.data,
         }),
     }),
 });
 
-export const { useAddDivisionMutation, useGetDivisionQuery } = divisionApi;
+export const { useAddDivisionMutation, useGetDivisionsQuery } = divisionApi;
