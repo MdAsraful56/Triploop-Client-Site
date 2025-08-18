@@ -1,4 +1,7 @@
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { DeleteConfirmation } from '../../components/DeleteConfirmation';
+import { Button } from '../../components/ui/button';
 import {
     Table,
     TableBody,
@@ -7,11 +10,29 @@ import {
     TableHeader,
     TableRow,
 } from '../../components/ui/table';
-import { useGetTourTypesQuery } from '../../redux/features/tour/tour.api';
+import {
+    useGetTourTypesQuery,
+    useRemoveTourTypeMutation,
+} from '../../redux/features/tour/tour.api';
 
 const AddTourType = () => {
     const { data } = useGetTourTypesQuery(undefined);
-    console.log(data);
+    const [removeTourType] = useRemoveTourTypeMutation();
+
+    const handleRemoveTourType = async (tourTypeId: string) => {
+        const toastId = toast.loading('Removing tour type...');
+        try {
+            const res = await removeTourType(tourTypeId).unwrap();
+            console.log('Tour type removed successfully');
+            if (res.success) {
+                toast.success('Tour type removed successfully', {
+                    id: toastId,
+                });
+            }
+        } catch (error) {
+            console.error('Failed to remove tour type:', error);
+        }
+    };
 
     return (
         <div className='w-full max-w-7xl mx-auto px-5'>
@@ -29,15 +50,27 @@ const AddTourType = () => {
                     </TableHeader>
                     <TableBody>
                         {data?.data?.map(
-                            (item: { name: string }, index: number) => (
+                            (
+                                item: { _id: string; name: string },
+                                index: number
+                            ) => (
                                 <TableRow key={index}>
                                     <TableCell className='font-medium w-full'>
                                         {item.name}
                                     </TableCell>
                                     <TableCell className='text-right'>
-                                        <button className='text-red-500'>
-                                            Delete <Trash className='inline' />
-                                        </button>
+                                        <DeleteConfirmation
+                                            onConfirm={() => {
+                                                handleRemoveTourType(item._id);
+                                            }}
+                                        >
+                                            <Button
+                                                size={'sm'}
+                                                variant='outline'
+                                            >
+                                                <Trash2 />
+                                            </Button>
+                                        </DeleteConfirmation>
                                     </TableCell>
                                 </TableRow>
                             )

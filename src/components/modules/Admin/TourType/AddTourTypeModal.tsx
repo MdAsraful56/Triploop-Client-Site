@@ -21,12 +21,16 @@ import {
     FormMessage,
 } from '../../../ui/form';
 
+type AddTourTypeFormValues = {
+    name: string;
+};
+
 export function AddTourTypeModal() {
-    const form = useForm();
+    const form = useForm<AddTourTypeFormValues>();
 
     const [addTourType] = useAddTourTypeMutation();
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: AddTourTypeFormValues) => {
         const res = await addTourType(data);
         if (res) {
             toast.success('Tour type added successfully');
