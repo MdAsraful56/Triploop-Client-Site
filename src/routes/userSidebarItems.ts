@@ -1,15 +1,15 @@
-import Bookings from '../pages/User/Bookings';
-import type { ISidebarItem } from '../types';
+import Bookings from "@/pages/User/Bookings";
+import { ISidebarItem } from "@/types";
 
 export const userSidebarItems: ISidebarItem[] = [
-    {
-        title: 'Dashboard',
-        items: [
-            {
-                title: 'Bookings',
-                url: '/user/bookings',
-                component: Bookings,
-            },
-        ],
-    },
+  {
+    title: "History",
+    items: [
+      {
+        title: "Bookings",
+        url: "/user/bookings",
+        component: Bookings,
+      },
+    ],
+  },
 ];
