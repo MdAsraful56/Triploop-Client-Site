@@ -1,10 +1,5 @@
-import { Link } from "react-router";
+const Unauthorized = () => {
+    return <div>You are not authorized to view this page.</div>;
+};
 
-export default function Unauthorized() {
-  return (
-    <div>
-      <h1> Muri Khaa, tui authorized na....</h1>
-      <Link to="/">Home</Link>
-    </div>
-  );
-}
+export default Unauthorized;
