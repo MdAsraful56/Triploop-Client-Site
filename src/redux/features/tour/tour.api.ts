@@ -1,47 +1,56 @@
-import { baseApi } from '@/redux/baseApi';
+import { baseApi } from "@/redux/baseApi";
+import { IResponse, ITourPackage } from "@/types";
 
 export const tourApi = baseApi.injectEndpoints({
-    endpoints: (builder) => ({
-        addTourType: builder.mutation({
-            query: (tourTypeName) => ({
-                url: '/tour/create-tour-type',
-                method: 'POST',
-                data: tourTypeName,
-            }),
-            invalidatesTags: ['TourType'],
-        }),
-
-        removeTourType: builder.mutation({
-            query: (tourTypeId) => ({
-                url: `/tour/tour-types/${tourTypeId}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['TourType'],
-        }),
-
-        getTourTypes: builder.query({
-            query: () => ({
-                url: `/tour/tour-types`,
-                method: 'GET',
-            }),
-            providesTags: ['TourType'],
-            transformResponse: (response) => response.data,
-        }),
-
-        addTour: builder.mutation({
-            query: (tourData) => ({
-                url: '/tour/create',
-                method: 'POST',
-                data: tourData,
-            }),
-            invalidatesTags: ['Tour'],
-        }),
+  endpoints: (builder) => ({
+    addTour: builder.mutation({
+      query: (tourData) => ({
+        url: "/tour/create",
+        method: "POST",
+        data: tourData,
+      }),
+      invalidatesTags: ["TOUR"],
     }),
+    addTourType: builder.mutation({
+      query: (tourTypeName) => ({
+        url: "/tour/create-tour-type",
+        method: "POST",
+        data: tourTypeName,
+      }),
+      invalidatesTags: ["TOUR"],
+    }),
+    removeTourType: builder.mutation({
+      query: (tourTypeId) => ({
+        url: `/tour/tour-types/${tourTypeId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["TOUR"],
+    }),
+    getTourTypes: builder.query({
+      query: (params) => ({
+        url: "/tour/tour-types",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["TOUR"],
+      transformResponse: (response) => response.data,
+    }),
+    getAllTours: builder.query<ITourPackage[], unknown>({
+      query: (params) => ({
+        url: "/tour",
+        method: "GET",
+        params: params,
+      }),
+      providesTags: ["TOUR"],
+      transformResponse: (response: IResponse<ITourPackage[]>) => response.data,
+    }),
+  }),
 });
 
 export const {
-    useAddTourTypeMutation,
-    useGetTourTypesQuery,
-    useRemoveTourTypeMutation,
-    useAddTourMutation,
+  useGetTourTypesQuery,
+  useAddTourTypeMutation,
+  useRemoveTourTypeMutation,
+  useAddTourMutation,
+  useGetAllToursQuery,
 } = tourApi;

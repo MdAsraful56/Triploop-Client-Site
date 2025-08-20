@@ -1,22 +1,20 @@
-import type { ComponentType } from 'react';
-import { Navigate } from 'react-router';
-import { useUserInfoQuery } from '../redux/features/auth/auth.api';
-import type { TRole } from '../types';
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { TRole } from "@/types";
+import { ComponentType } from "react";
+import { Navigate } from "react-router";
 
-const withAuth = (Component: ComponentType, requiredRoles?: TRole) => {
-    return function AuthWrapper() {
-        const { data, isLoading } = useUserInfoQuery(undefined);
+export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
+  return function AuthWrapper() {
+    const { data, isLoading } = useUserInfoQuery(undefined);
 
-        if (!isLoading && !data?.data?.email) {
-            return <Navigate to={'/login'} />;
-        }
+    if (!isLoading && !data?.data?.email) {
+      return <Navigate to="/login" />;
+    }
 
-        if (requiredRoles && !isLoading && requiredRoles === data?.data?.role) {
-            return <Navigate to={'/unauthorized'} />;
-        }
+    if (requiredRole && !isLoading && requiredRole !== data?.data?.role) {
+      return <Navigate to="/unauthorized" />;
+    }
 
-        return <Component />;
-    };
+    return <Component />;
+  };
 };
-
-export default withAuth;
