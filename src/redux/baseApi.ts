@@ -1,13 +1,11 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "./axiosBaseQuery";
+import { createApi } from '@reduxjs/toolkit/query/react';
+import axiosBaseQuery from './axiosBaseQuery';
+// import { createApi } from '@reduxjs/toolkit/query';
 
 export const baseApi = createApi({
-  reducerPath: "baseApi",
-  baseQuery: axiosBaseQuery(),
-  //   baseQuery: fetchBaseQuery({
-  //     baseUrl: config.baseUrl,
-  //     credentials: "include",
-  //   }),
-  tagTypes: ["USER", "TOUR", "DIVISION", "BOOKING"],
-  endpoints: () => ({}),
+    reducerPath: 'baseApi',
+    baseQuery: axiosBaseQuery(),
+    tagTypes: ['USER', 'Division', 'TourType', 'Tour'],
+
+    endpoints: () => ({}),
 });
